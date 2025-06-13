@@ -84,9 +84,8 @@
 
   <div class="section">
     <p><strong>Invoice #:</strong> <span id="invoice-number">Loading...</span></p>
+    <p><strong>Invoice Date:</strong> <span id="invoice-date">Loading...</span></p>
     <p><strong>Client:</strong> <span id="client-name">Loading...</span></p>
-    <p><strong>Billing Contact:</strong> [Contact Name]</p>
-    <p><strong>Address:</strong> [Client Address]</p>
     <p><strong>Email:</strong> <span id="client-email">Loading...</span></p>
   </div>
 
@@ -154,6 +153,13 @@
   <script>
     const API_ENDPOINT = 'https://opensheet.elk.sh/1VDEiS9ebvDouVCz2jRNyovVpP5D3MAc-_9XeblElyKs/2';
 
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const d = new Date(dateString);
+      if (isNaN(d)) return dateString;
+      return d.toLocaleDateString(undefined, options);
+    }
+
     async function loadInvoice() {
       const errorMessageEl = document.getElementById('error-message');
 
@@ -169,14 +175,18 @@
           throw new Error('Empty or invalid invoice data array');
         }
 
-        // Use the last row as the most recent invoice
-        const latestInvoice = dataArray[dataArray.length - 1];
+        const latestInvoice = dataArray.reduce((latest, current) => {
+          const latestTime = new Date(latest.invoiceDate).getTime() || 0;
+          const currentTime = new Date(current.invoiceDate).getTime() || 0;
+          return currentTime > latestTime ? current : latest;
+        });
 
-        if (!latestInvoice.invoiceNumber || !latestInvoice.clientName || !latestInvoice.clientEmail) {
+        if (!latestInvoice.invoiceNumber || !latestInvoice.clientName || !latestInvoice.clientEmail || !latestInvoice.invoiceDate) {
           throw new Error('Latest invoice lacks required fields');
         }
 
         document.getElementById('invoice-number').textContent = latestInvoice.invoiceNumber;
+        document.getElementById('invoice-date').textContent = formatDate(latestInvoice.invoiceDate);
         document.getElementById('client-name').textContent = latestInvoice.clientName;
         document.getElementById('client-email').textContent = latestInvoice.clientEmail;
 
@@ -186,6 +196,7 @@
         errorMessageEl.style.display = 'block';
 
         document.getElementById('invoice-number').textContent = '[Unavailable]';
+        document.getElementById('invoice-date').textContent = '[Unavailable]';
         document.getElementById('client-name').textContent = '[Unavailable]';
         document.getElementById('client-email').textContent = '[Unavailable]';
       }
@@ -193,6 +204,5 @@
 
     document.addEventListener('DOMContentLoaded', loadInvoice);
   </script>
-
 </body>
 </html>
