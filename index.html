@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -74,22 +73,14 @@
     }
   </style>
 </head>
-<body>
-
-  <h1>ZENIFY</h1>
+<body>  <h1>ZENIFY</h1>
   <h2>HR Software Solutions</h2>
-  <hr />
-
-  <div id="error-message" class="error" role="alert" aria-live="assertive" style="display:none;"></div>
-
-  <div class="section">
+  <hr />  <div id="error-message" class="error" role="alert" aria-live="assertive" style="display:none;"></div>  <div class="section">
     <p><strong>Invoice #:</strong> <span id="invoice-number">Loading...</span></p>
     <p><strong>Invoice Date:</strong> <span id="invoice-date">Loading...</span></p>
     <p><strong>Client:</strong> <span id="client-name">Loading...</span></p>
     <p><strong>Email:</strong> <span id="client-email">Loading...</span></p>
-  </div>
-
-  <table>
+  </div>  <table>
     <thead>
       <tr>
         <th>Description</th>
@@ -108,49 +99,43 @@
       <tr>
         <td style="padding-left: 20px;">– Time Off Management Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$500.00</td>
-        <td class="total">$500.00</td>
+        <td class="unit-price">\$500.00</td>
+        <td class="total">\$500.00</td>
       </tr>
       <tr>
         <td style="padding-left: 20px;">– Training Booking Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$400.00</td>
-        <td class="total">$400.00</td>
+        <td class="unit-price">\$400.00</td>
+        <td class="total">\$400.00</td>
       </tr>
       <tr>
         <td style="padding-left: 20px;">– Time Tracking Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$200.00</td>
-        <td class="total">$200.00</td>
+        <td class="unit-price">\$200.00</td>
+        <td class="total">\$200.00</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <td colspan="3" style="text-align: right;">Subtotal</td>
-        <td>$1,100.00</td>
+        <td>\$1,100.00</td>
       </tr>
       <tr>
         <td colspan="3" style="text-align: right;">Tax (9.09%)</td>
-        <td>$100.00</td>
+        <td>\$100.00</td>
       </tr>
       <tr>
         <td colspan="3" style="text-align: right;">Total Due</td>
-        <td>$1,200.00</td>
+        <td>\$1,200.00</td>
       </tr>
     </tfoot>
-  </table>
-
-  <div class="section">
+  </table>  <div class="section">
     <p><strong>Payment Terms:</strong> Due upon receipt</p>
     <p><strong>Payment Methods:</strong> Credit Card, ACH, Wire Transfer</p>
-  </div>
-
-  <div class="footer">
+  </div>  <div class="footer">
     <p>Thank you for choosing Zenify for your HR management needs.</p>
     <p>For inquiries, please contact <a href="mailto:billing@zenify.com">billing@zenify.com</a></p>
-  </div>
-
-  <script>
+  </div>  <script>
     const API_ENDPOINT = 'https://opensheet.elk.sh/1VDEiS9ebvDouVCz2jRNyovVpP5D3MAc-_9XeblElyKs/2';
 
     function formatDate(dateString) {
@@ -175,11 +160,8 @@
           throw new Error('Empty or invalid invoice data array');
         }
 
-        const latestInvoice = dataArray.reduce((latest, current) => {
-          const latestTime = new Date(latest.invoiceDate).getTime() || 0;
-          const currentTime = new Date(current.invoiceDate).getTime() || 0;
-          return currentTime > latestTime ? current : latest;
-        });
+        // Use last created entry (last element in dataArray)
+        const latestInvoice = dataArray[dataArray.length - 1];
 
         if (!latestInvoice.invoiceNumber || !latestInvoice.clientName || !latestInvoice.clientEmail || !latestInvoice.invoiceDate) {
           throw new Error('Latest invoice lacks required fields');
@@ -203,6 +185,5 @@
     }
 
     document.addEventListener('DOMContentLoaded', loadInvoice);
-  </script>
-</body>
+  </script></body>
 </html>
