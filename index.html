@@ -10,8 +10,9 @@
       max-width: 700px;
       margin: 30px auto;
       padding: 20px;
-      border: 1px solid #ccc;
       color: #333;
+      background-color: #fff;
+      border: 1px solid #ccc;
     }
     h1, h2 {
       margin: 0;
@@ -65,6 +66,12 @@
       padding-top: 15px;
       text-align: center;
     }
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -73,12 +80,14 @@
   <h2>HR Software Solutions</h2>
   <hr />
 
+  <div id="error-message" class="error" role="alert" aria-live="assertive" style="display:none;"></div>
+
   <div class="section">
-    <p><strong>Invoice #:</strong> <span id="invoice-number">000001</span></p>
-    <p><strong>Client:</strong> <span id="client-name">[Client Company Name]</span></p>
+    <p><strong>Invoice #:</strong> <span id="invoice-number">Loading...</span></p>
+    <p><strong>Client:</strong> <span id="client-name">Loading...</span></p>
     <p><strong>Billing Contact:</strong> [Contact Name]</p>
     <p><strong>Address:</strong> [Client Address]</p>
-    <p><strong>Email:</strong> <span id="client-email">[Contact Email]</span></p>
+    <p><strong>Email:</strong> <span id="client-email">Loading...</span></p>
   </div>
 
   <table>
@@ -100,34 +109,34 @@
       <tr>
         <td style="padding-left: 20px;">– Time Off Management Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$50.00</td>
-        <td class="total">$50.00</td>
+        <td class="unit-price">$500.00</td>
+        <td class="total">$500.00</td>
       </tr>
       <tr>
         <td style="padding-left: 20px;">– Training Booking Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$40.00</td>
-        <td class="total">$40.00</td>
+        <td class="unit-price">$400.00</td>
+        <td class="total">$400.00</td>
       </tr>
       <tr>
         <td style="padding-left: 20px;">– Time Tracking Module</td>
         <td class="qty">1</td>
-        <td class="unit-price">$45.00</td>
-        <td class="total">$45.00</td>
+        <td class="unit-price">$200.00</td>
+        <td class="total">$200.00</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <td colspan="3" style="text-align: right;">Subtotal</td>
-        <td>$135.00</td>
+        <td>$1,100.00</td>
       </tr>
       <tr>
-        <td colspan="3" style="text-align: right;">Tax (10%)</td>
-        <td>$13.50</td>
+        <td colspan="3" style="text-align: right;">Tax (9.09%)</td>
+        <td>$100.00</td>
       </tr>
       <tr>
         <td colspan="3" style="text-align: right;">Total Due</td>
-        <td>$148.50</td>
+        <td>$1,200.00</td>
       </tr>
     </tfoot>
   </table>
@@ -143,26 +152,43 @@
   </div>
 
   <script>
-    // Example of updating the invoice info dynamically
-    function updateInvoice(data) {
-      if(data.invoiceNumber) {
+    // Change this to your actual API endpoint
+    const API_ENDPOINT = 'https://your-api.com/invoice';
+
+    // Fetch invoice data from API and update page
+    async function loadInvoice() {
+      const errorMessageEl = document.getElementById('error-message');
+      try {
+        // Example: Using GET request; switch to POST if needed
+        const response = await fetch(API_ENDPOINT);
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+
+        // Validate required fields
+        if (!data.invoiceNumber || !data.clientName || !data.clientEmail) {
+          throw new Error('Missing required invoice data from API.');
+        }
+
         document.getElementById('invoice-number').textContent = data.invoiceNumber;
-      }
-      if(data.clientName) {
         document.getElementById('client-name').textContent = data.clientName;
-      }
-      if(data.clientEmail) {
         document.getElementById('client-email').textContent = data.clientEmail;
+
+        errorMessageEl.style.display = 'none';
+      } catch (err) {
+        errorMessageEl.textContent = 'Failed to load invoice data: ' + err.message;
+        errorMessageEl.style.display = 'block';
+
+        // Show fallback/default placeholders
+        document.getElementById('invoice-number').textContent = '[Unavailable]';
+        document.getElementById('client-name').textContent = '[Unavailable]';
+        document.getElementById('client-email').textContent = '[Unavailable]';
       }
     }
 
-    // Example call to update the invoice - replace with your dynamic data source
-    // updateInvoice({
-    //   invoiceNumber: 'INV-2024-005',
-    //   clientName: 'Acme Corporation',
-    //   clientEmail: 'contact@acme.com'
-    // });
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', loadInvoice);
   </script>
-
 </body>
 </html>
