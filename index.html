@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zenify Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      color: #333;
+    }
+    h1, h2 {
+      margin: 0;
+    }
+    h1 {
+      font-size: 28px;
+      text-align: center;
+    }
+    h2 {
+      font-weight: normal;
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    hr {
+      border: 0;
+      border-top: 2px solid #0078D4;
+      margin: 15px 0 25px 0;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    .section p {
+      margin: 4px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f4f8;
+    }
+    td.qty, td.unit-price, td.total {
+      text-align: right;
+      white-space: nowrap;
+    }
+    tfoot td {
+      font-weight: bold;
+      border-top: 2px solid #0078D4;
+    }
+    .footer {
+      font-size: 14px;
+      color: #555;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ZENIFY</h1>
+  <h2>HR Software Solutions</h2>
+  <hr />
+
+  <div class="section">
+    <p><strong>Invoice #:</strong> <span id="invoice-number">000001</span></p>
+    <p><strong>Client:</strong> <span id="client-name">[Client Company Name]</span></p>
+    <p><strong>Billing Contact:</strong> [Contact Name]</p>
+    <p><strong>Address:</strong> [Client Address]</p>
+    <p><strong>Email:</strong> <span id="client-email">[Contact Email]</span></p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th class="qty">Qty</th>
+        <th class="unit-price">Unit Price</th>
+        <th class="total">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zenify SaaS Subscription</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">– Time Off Management Module</td>
+        <td class="qty">1</td>
+        <td class="unit-price">$50.00</td>
+        <td class="total">$50.00</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">– Training Booking Module</td>
+        <td class="qty">1</td>
+        <td class="unit-price">$40.00</td>
+        <td class="total">$40.00</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">– Time Tracking Module</td>
+        <td class="qty">1</td>
+        <td class="unit-price">$45.00</td>
+        <td class="total">$45.00</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" style="text-align: right;">Subtotal</td>
+        <td>$135.00</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: right;">Tax (10%)</td>
+        <td>$13.50</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: right;">Total Due</td>
+        <td>$148.50</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="section">
+    <p><strong>Payment Terms:</strong> Due upon receipt</p>
+    <p><strong>Payment Methods:</strong> Credit Card, ACH, Wire Transfer</p>
+  </div>
+
+  <div class="footer">
+    <p>Thank you for choosing Zenify for your HR management needs.</p>
+    <p>For inquiries, please contact <a href="mailto:billing@zenify.com">billing@zenify.com</a></p>
+  </div>
+
+  <script>
+    // Example of updating the invoice info dynamically
+    function updateInvoice(data) {
+      if(data.invoiceNumber) {
+        document.getElementById('invoice-number').textContent = data.invoiceNumber;
+      }
+      if(data.clientName) {
+        document.getElementById('client-name').textContent = data.clientName;
+      }
+      if(data.clientEmail) {
+        document.getElementById('client-email').textContent = data.clientEmail;
+      }
+    }
+
+    // Example call to update the invoice - replace with your dynamic data source
+    // updateInvoice({
+    //   invoiceNumber: 'INV-2024-005',
+    //   clientName: 'Acme Corporation',
+    //   clientEmail: 'contact@acme.com'
+    // });
+  </script>
+
+</body>
+</html>
