@@ -152,8 +152,7 @@
   </div>
 
   <script>
-    // Replace with your actual API URL
-    const API_ENDPOINT = 'https://your-api.com/invoices';
+    const API_ENDPOINT = 'https://opensheet.elk.sh/1VDEiS9ebvDouVCz2jRNyovVpP5D3MAc-_9XeblElyKs/2';
 
     async function loadInvoice() {
       const errorMessageEl = document.getElementById('error-message');
@@ -170,12 +169,8 @@
           throw new Error('Empty or invalid invoice data array');
         }
 
-        // Assuming each item has a 'timestamp' field as ISO string or number
-        const latestInvoice = dataArray.reduce((latest, current) => {
-          const latestTime = new Date(latest.timestamp).getTime() || 0;
-          const currentTime = new Date(current.timestamp).getTime() || 0;
-          return currentTime > latestTime ? current : latest;
-        });
+        // Use the last row as the most recent invoice
+        const latestInvoice = dataArray[dataArray.length - 1];
 
         if (!latestInvoice.invoiceNumber || !latestInvoice.clientName || !latestInvoice.clientEmail) {
           throw new Error('Latest invoice lacks required fields');
@@ -198,5 +193,6 @@
 
     document.addEventListener('DOMContentLoaded', loadInvoice);
   </script>
+
 </body>
 </html>
